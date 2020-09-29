@@ -11,7 +11,7 @@ from requests.auth import HTTPDigestAuth
 
 array_group_dict = dict({
     '202014059854': 'West Array',
-    '202014056703': 'Easy Array',
+    '202014056703': 'East Array',
     '202014059616': 'West Array',
     '202014057857': 'West Array',
     '202014057689': 'South Array',
