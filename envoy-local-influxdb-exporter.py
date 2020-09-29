@@ -9,10 +9,45 @@ from influxdb import InfluxDBClient
 from influxdb.exceptions import InfluxDBClientError
 from requests.auth import HTTPDigestAuth
 
+array_group_dict = dict({
+    '202014059854': 'West Array',
+    '202014056703': 'Easy Array',
+    '202014059616': 'West Array',
+    '202014057857': 'West Array',
+    '202014057689': 'South Array',
+    '202014058289': 'South Array',
+    '202014059871': 'West Array',
+    '202014057752': 'South Array',
+    '202014059244': 'South Array',
+    '202014060736': 'East Array',
+    '202014057830': 'South Array',
+    '202014055874': 'East Array',
+    '202014060275': 'West Array',
+    '202014060045': 'South Array',
+    '202014056109': 'South Array',
+    '202014061347': 'South Array',
+    '202014058701': 'South Array',
+    '202014058911': 'South Array',
+    '202014061631': 'South Array',
+    '202015001261': 'West Array',
+    '202014057141': 'West Array',
+    '202014059119': 'East Array',
+    '202014062034': 'West Array',
+    '202014059113': 'West Array',
+    '202014058930': 'East Array',
+    '202014057147': 'West Array',
+    '202014057758': 'East Array',
+    '202014059912': 'West Array',
+    '202014056831': 'South Array',
+    '202014057187': 'West Array',
+    '202014059979': 'East Array',
+    '202014057959': 'East Array',
+})
 
 def convert_envoy_inverters_to_influxdb(inverter):
     tags = {
-        'serialNumber': inverter['serialNumber']
+        'serialNumber': inverter['serialNumber'],
+        'array': array_group_dict[inverter['serialNumber']]
     }
     fields = {
         'lastReportWatts': inverter['lastReportWatts'],
@@ -20,7 +55,8 @@ def convert_envoy_inverters_to_influxdb(inverter):
     }
 
     tzinfo = pytz.timezone("America/Denver")
-    measured_time = datetime.datetime.strptime(time.ctime(inverter['lastReportDate']), "%a %b %d %H:%M:%S %Y").astimezone(tzinfo)
+    measured_time = datetime.datetime.strptime(time.ctime(inverter['lastReportDate']),
+                                               "%a %b %d %H:%M:%S %Y").astimezone(tzinfo)
     influx = {
         'measurement': 'inverters',
         'time': measured_time.isoformat(),
@@ -75,20 +111,20 @@ while True:
     influxdb_body = list(map(convert_envoy_inverters_to_influxdb, envoy))
 
     # if print_to_console:
-    #     print(json_body)
     #     print(client.write_points(json_body))
     # else:
-    print(client.write_points(influxdb_body))
+    print(influxdb_body)
+    # print(client.write_points(influxdb_body))
 
-# except ValueError as valueError:
-#     raise valueError
-# except (requests.exceptions.ConnectionError,
-#         requests.exceptions.HTTPError,
-#         requests.exceptions.Timeout) as e:
-#     print(e)
-#     print('Resetting client connection')
-#     client = None
-# except Exception as e:
-#     print(e)
-#
+    # except ValueError as valueError:
+    #     raise valueError
+    # except (requests.exceptions.ConnectionError,
+    #         requests.exceptions.HTTPError,
+    #         requests.exceptions.Timeout) as e:
+    #     print(e)
+    #     print('Resetting client connection')
+    #     client = None
+    # except Exception as e:
+    #     print(e)
+    #
     time.sleep(delay)
