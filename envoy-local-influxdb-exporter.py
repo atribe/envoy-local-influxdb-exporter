@@ -38,7 +38,7 @@ port = os.getenv('INFLUXDB_PORT', 8086)
 host = os.getenv('INFLUXDB_HOST', 'influxdb.tribe3k.com')
 envoy_host = os.getenv('ENVOY_HOST', 'http://envoy.tribe3k.com')
 
-min_delay = int(os.getenv('INTERVAL', 10))
+min_delay = int(os.getenv('INTERVAL', 300))
 max_delay = int(os.getenv('MAX_INTERVAL', min_delay * 8))
 delay = min_delay
 print_to_console = 'true'
