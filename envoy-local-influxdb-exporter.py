@@ -74,8 +74,6 @@ while True:
     envoy = envoy_response.json()
     influxdb_body = list(map(convert_envoy_inverters_to_influxdb, envoy))
 
-    print(influxdb_body)
-
     # if print_to_console:
     #     print(json_body)
     #     print(client.write_points(json_body))
