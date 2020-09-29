@@ -113,8 +113,8 @@ while True:
     # if print_to_console:
     #     print(client.write_points(json_body))
     # else:
-    print(influxdb_body)
-    # print(client.write_points(influxdb_body))
+    # print(influxdb_body)
+    print(client.write_points(influxdb_body))
 
     # except ValueError as valueError:
     #     raise valueError
